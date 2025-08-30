@@ -1,0 +1,78 @@
+# Description of what this change includes
+# Revision number
+# Date
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Amazon Relational Database Service (RDS) Instance Template
+Resources:
+  RdsInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      VPCSecurityGroups:
+      - <SECURITY-GROUP-ID>
+      AllocatedStorage: '5'
+      DBInstanceClass: db.t3.micro
+      DBInstanceIdentifier: playground-db
+      Engine: MySQL
+      MasterUsername: Admin
+      MasterUserPassword: CloudAcademy123!
+Resources:
+  # VPC Resource
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: VPC-noamar5950
+
+  # Public Subnet in us-west-2a
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: us-west-2a
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: PublicSubnetA-noamar5950
+
+  # Public Subnet in us-west-2b
+  PublicSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: us-west-2b
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: PublicSubnetB-noamar5950
+
+  # Public Subnet in us-west-2c
+  PublicSubnetC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: us-west-2c
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: PublicSubnetC-noamar5950
+
+Outputs:
+  VPCId:
+    Description: The ID of the created VPC
+    Value: !Ref MyVPC
+  SubnetAId:
+    Description: The ID of Public Subnet A
+    Value: !Ref PublicSubnetA
+  SubnetBId:
+    Description: The ID of Public Subnet B
+    Value: !Ref PublicSubnetB
+  SubnetCId:
+    Description: The ID of Public Subnet C
+    Value: !Ref PublicSubnetC
